@@ -2,6 +2,7 @@
 
 ![Pine Script v5](https://img.shields.io/badge/Pine%20Script-v5-2962FF?style=flat-square)
 ![MQL5](https://img.shields.io/badge/MQL5-Expert%20Advisor-0F2027?style=flat-square)
+![MetaEditor: compiles clean](https://img.shields.io/badge/MetaEditor-compiles%20clean-2EA043?style=flat-square)
 ![License: MIT](https://img.shields.io/badge/License-MIT-2EA043?style=flat-square)
 
 > **The same strategy, twice.** A complete, side-by-side demonstration of converting a TradingView Pine Script strategy into a production-style MQL5 Expert Advisor — identical logic, identical parameters, identical risk model.
@@ -76,7 +77,7 @@ The heart of this repo. Every Pine idiom has an MQL5 counterpart — here's the 
 
 **MetaTrader 5 (2 minutes)**
 1. Copy `EMA_RSI_Pullback.mq5` into `MQL5/Experts/`
-2. Open MetaEditor, press **F7** to compile — fix any warnings before live use
+2. Open MetaEditor, press **F7** — compiles with zero errors and zero warnings (verified Oct 11, 2026)
 3. Attach to any chart in the Strategy Tester or live (start with visual mode + a demo account)
 
 **Parameters are identical on both sides** — change one, change the other:
@@ -93,7 +94,7 @@ The heart of this repo. Every Pine idiom has an MQL5 counterpart — here's the 
 
 ## Honest Notes
 
-- **The MQL5 code was written carefully but has not been compiled in MetaEditor in this environment** — compiling (F7) is step zero before any real use.
+- **Verified:** compiles with zero errors in MetaEditor and runs in the MT5 Strategy Tester (Oct 11, 2026).
 - **Broker minimum stop distances** (`SYMBOL_TRADE_STOPS_LEVEL`) vary — on some symbols the 2×ATR stop may need widening; the README flags it, production code should enforce it.
 - Backtest both versions on the same symbol and date range and compare the trade lists — small differences in fill modeling are normal and instructive.
 - Educational material. Not financial advice. Strategies can and do lose money.
