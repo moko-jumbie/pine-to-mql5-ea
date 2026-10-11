@@ -92,6 +92,29 @@ The heart of this repo. Every Pine idiom has an MQL5 counterpart — here's the 
 
 ---
 
+## Backtest: MT5 Strategy Tester
+
+Run in MetaTrader 5's Strategy Tester (Fusion Markets demo, build 6254) — 1.0 lot, all defaults:
+
+| Metric | Value |
+|---|---|
+| Symbol / timeframe | EURUSD, M15 |
+| Period | 2026-01-01 → 2026-10-10 |
+| History quality | 100% — 19,294 bars, ~11M ticks |
+| Initial deposit | $10,000 (1:100 leverage) |
+| Total net profit | **+$346.69** |
+| Profit factor | 2.86 |
+| Expected payoff | $57.78 / trade |
+| Recovery factor | 1.98 |
+| Sharpe ratio | 1.58 |
+| Max balance drawdown | $90.75 (0.91%) |
+| Max equity drawdown | $175.50 (1.75%) |
+| Total trades | 6 — 4 wins (66.7%), 2 losses |
+| Avg win / avg loss | $133.17 / −$86.25 |
+| Avg holding time | 2h 44m |
+
+> **Read it honestly:** 6 trades in 9 months is a thin sample — this backtest proves the EA *runs correctly* (entries, SL/TP, exits all firing as designed), not that the edge is statistically proven. That's exactly what a conversion demo is for: same logic, verified working, ready for your own testing.
+
 ## Honest Notes
 
 - **Verified:** compiles with zero errors in MetaEditor and runs in the MT5 Strategy Tester (Oct 11, 2026).
