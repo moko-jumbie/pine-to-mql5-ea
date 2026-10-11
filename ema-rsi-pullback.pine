@@ -1,0 +1,52 @@
+//@version=5
+// ----------------------------------------------------------------------------
+//  EMA Trend + RSI Pullback — Pine Script v5 strategy
+//  Companion to EMA_RSI_Pullback.mq5 (MQL5 Expert Advisor).
+//  Same logic, same parameters, same risk model — a conversion demo.
+//  Educational use only. Not financial advice.
+// ----------------------------------------------------------------------------
+strategy("EMA Trend + RSI Pullback", overlay=true, initial_capital=10000,
+     default_qty_type=strategy.percent_of_equity, default_qty_value=10,
+     commission_type=strategy.commission.percent, commission_value=0.02)
+
+// --- Inputs (map to `input` variables in the MQL5 EA) ---
+emaFastLen = input.int(50,  "Fast EMA Length",      minval=1)
+emaSlowLen = input.int(200, "Slow EMA Length",      minval=2)
+rsiLen     = input.int(14,  "RSI Length",           minval=2)
+rsiLevel   = input.int(40,  "RSI Pullback Level",   minval=1, maxval=50)
+atrLen     = input.int(14,  "ATR Length",           minval=1)
+atrStop    = input.float(2.0, "ATR Stop Multiplier",  minval=0.5, step=0.5)
+atrTake    = input.float(3.0, "ATR Target Multiplier", minval=0.5, step=0.5)
+
+// --- Indicators ---
+emaFast = ta.ema(close, emaFastLen)
+emaSlow = ta.ema(close, emaSlowLen)
+rsiVal  = ta.rsi(close, rsiLen)
+atrVal  = ta.atr(atrLen)
+
+// --- Signals (evaluated on confirmed bars) ---
+inUptrend   = close > emaFast and emaFast > emaSlow
+inDowntrend = close < emaFast and emaFast < emaSlow
+
+longTrigger  = inUptrend   and ta.crossunder(rsiVal, rsiLevel)
+shortTrigger = inDowntrend and ta.crossover(rsiVal, 100 - rsiLevel)
+
+// --- Orders with ATR-based risk ---
+longSL  = close - atrVal * atrStop
+longTP  = close + atrVal * atrTake
+shortSL = close + atrVal * atrStop
+shortTP = close - atrVal * atrTake
+
+if longTrigger
+    strategy.entry("Long", strategy.long)
+    strategy.exit("Long Exit", "Long", stop=longSL, limit=longTP)
+
+if shortTrigger
+    strategy.entry("Short", strategy.short)
+    strategy.exit("Short Exit", "Short", stop=shortSL, limit=shortTP)
+
+// --- Visuals ---
+plot(emaFast, "EMA 50",  color.new(color.blue, 0))
+plot(emaSlow, "EMA 200", color.new(color.red, 0))
+plotshape(longTrigger,  "Long",  shape.triangleup,   location.belowbar, color.new(color.green, 0), size=size.small)
+plotshape(shortTrigger, "Short", shape.triangledown, location.abovebar, color.new(color.red,   0), size=size.small)
